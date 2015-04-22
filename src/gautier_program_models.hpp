@@ -1,20 +1,21 @@
-/*Copyright 2015 Michael Gautier, Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at	http://www.apache.org/licenses/LICENSE-2.0
-
-Software distributed under the License is distributed on an "AS IS" BASIS,
-NO WARRANTIES OR CONDITIONS OF ANY KIND, explicit or implicit.
-See the License for details on permissions and limitations.*/
-
-
-/*
------------------------------
-
-Tools to *help* map generic JSON formatted data to data types specific to the project.
-These tools do not do the mapping, but reduce the amount of code needed at the application level.
-
------------------------------
+/*! 	\file
+	\brief		Interface to an implementation that defines a program's initial data.
+	\par		Description
+	Programs begin with functions and data and this interface is for an implementation concerned with the latter.
+	\par		Model Types
+	The module is concerned with data models relevant to a regular program. In its present form, it deals with models for defining a user interface. It can be expanded to address models for databases, files, and networks in a form productive for an application.
+	\par		JSON Formatted Data Model
+	JsonCpp is used to translate a user interface data defined in JSON formatted text into a data model native to the program.
+	\pre		ISO C++ 11 or later compliant compiler with an available C++ 11 STL implementation.
+	\pre		JsonCpp http://open-source-parsers.github.io/jsoncpp-docs/doxygen/index.html
+	\version	4
+	\date		4/12/2015 4/21/2015
+	\author 	Michael Gautier
+	\copyright 	Apache License 2.0
+	\par 		Copyright 2015 Michael Gautier
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 . Software distributed under the License is distributed on an "AS IS" BASIS, NO WARRANTIES OR CONDITIONS OF ANY KIND, explicit or implicit. See the License for details on permissions and limitations.
 */
+
 #ifndef gautier_program_models
 #define gautier_program_models
 

@@ -1,13 +1,21 @@
-/*Copyright 2015 Michael Gautier, Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at	http://www.apache.org/licenses/LICENSE-2.0
+/*! 	\file
+	\brief		Produces models used by the program.
+	\par		Description
+	The primary function of this module is to link data types into forms productive for the application in processing information for capture or dispatch. The principle is that the program will often need to deal with information organized as lists data and the structure of those lists will determine suitable algorithms and routines. The level of productivity in defining the regular program begins in this module.
+	\pre		ISO C++ 11 or later compliant compiler with an available C++ 11 STL implementation.
+	\pre		JsonCpp http://open-source-parsers.github.io/jsoncpp-docs/doxygen/index.html
+	\version	4
+	\date		4/12/2015 4/21/2015
+	\author 	Michael Gautier
+	\copyright 	Apache License 2.0
+	\par 		Copyright 2015 Michael Gautier
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 . Software distributed under the License is distributed on an "AS IS" BASIS, NO WARRANTIES OR CONDITIONS OF ANY KIND, explicit or implicit. See the License for details on permissions and limitations.
+*/
 
-Software distributed under the License is distributed on an "AS IS" BASIS,
-NO WARRANTIES OR CONDITIONS OF ANY KIND, explicit or implicit.
-See the License for details on permissions and limitations.*/
-
+#include "gautier_core.hpp"
 #include "gautier_program_models.hpp"
 #include "gautier_interaction.hpp"
+#include "gautier_interaction_types.hpp"
 
 auto gautier::program::models::build_composition(const type_key_list& instance_data_key_to_interaction_def_list, type_composition& instance_composition, type_keyvaluepair_list& instance_current_values) -> void
 {
@@ -38,18 +46,68 @@ auto gautier::program::models::build_composition(const type_key_list& instance_d
 	{
 		gautier::interaction::planar_def instance_planar_def;
 
-		instance_planar_def.receives_input = (instance_current_values["receives_input"] == "true");
-		instance_planar_def.input_limit = std::stoi(instance_current_values["input_limit"]);
+		for(const auto current_item : instance_current_values)
+		{
+			const auto current_name = current_item.first;
+			const auto current_value = current_item.second;
 
-		instance_planar_def.x = std::stof(instance_current_values["x"]);
-		instance_planar_def.y = std::stof(instance_current_values["y"]);
-		instance_planar_def.width = std::stof(instance_current_values["width"]);
-		instance_planar_def.height = std::stof(instance_current_values["height"]);
+			/*A a more reliable process in the event fields are missing.*/
+			if(current_name == "height")
+			{
+				if(gautier::is_numeric(current_value))
+				{
+					instance_planar_def.height = std::stof(current_value);
+				}
+			}
+			else if(current_name == "input_limit")
+			{
+				if(gautier::is_numeric(current_value))
+				{
+					instance_planar_def.input_limit = std::stoi(current_value);
+				}
+			}
+			else if(current_name == "planar_elemid")
+			{
+				if(current_name == item_type_desc.first)
+				{
+					instance_planar_def.name = current_value;
+				}
+			}
+			else if(current_name == "planar_phrase")
+			{
+				instance_planar_def.text = current_value;
+			}
+			else if(current_name == "receives_input")
+			{
+				instance_planar_def.receives_input = ("true" == current_value);
+			}
+			else if(current_name == "width")
+			{
+				if(gautier::is_numeric(current_value))
+				{
+					instance_planar_def.width = std::stof(current_value);
+				}
+			}
+			else if(current_name == "x")
+			{
+				if(gautier::is_numeric(current_value))
+				{
+					instance_planar_def.x = std::stof(current_value);
+				}
+			}
+			else if(current_name == "y")
+			{
+				if(gautier::is_numeric(current_value))
+				{
+					instance_planar_def.y = std::stof(current_value);
+				}
+			}
+		}
 
-		instance_planar_def.name = item_type_desc.first;
-		instance_planar_def.text = instance_current_values["planar_phrase"];
-
-		instance_composition.composites.emplace(instance_planar_def.name, instance_planar_def);
+		if(!instance_planar_def.name.empty())
+		{
+			instance_composition.composites.emplace(instance_planar_def.name, instance_planar_def);
+		}
 	}
 
 	return;

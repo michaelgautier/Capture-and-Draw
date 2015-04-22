@@ -1,10 +1,15 @@
-/*Copyright 2015 Michael Gautier, Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at	http://www.apache.org/licenses/LICENSE-2.0
-
-Software distributed under the License is distributed on an "AS IS" BASIS,
-NO WARRANTIES OR CONDITIONS OF ANY KIND, explicit or implicit.
-See the License for details on permissions and limitations.*/
+/*!	\file
+	\brief		Visual interface gateway.
+	\par		Description
+	A passthrough gateway that dispatches inputs to a more involved implementation. The more involved implementation is determined by the UXLevel define flag in the "gautier_interaction.hpp" header file for selection at compile.
+	\pre		ISO C++ 11 or later compliant compiler with an available C++ 11 STL implementation.
+	\version	4
+	\date		4/12/2015
+	\author 	Michael Gautier
+	\copyright 	Apache License 2.0
+	\par 		Copyright 2015 Michael Gautier
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 . Software distributed under the License is distributed on an "AS IS" BASIS, NO WARRANTIES OR CONDITIONS OF ANY KIND, explicit or implicit. See the License for details on permissions and limitations.
+*/
 
 #include "gautier_core.hpp"
 #include "gautier_interaction.hpp"
@@ -120,24 +125,6 @@ auto gautier::interaction::axis_modify_y_top_align(const planar_def& in_bnds, pl
 	return out_bnds.y;
 }
 
-auto gautier::interaction::Function01_InputMappedToGeometry() -> float
-{
-	return 0;
-}
-
-auto gautier::interaction::Function02_VisualStructureToVisualOutput() -> float
-{
-	return 0;
-}
-
-auto gautier::interaction::update_text_buffer_by_name(std::map<std::string, std::string>& txtbfr, const std::string& name, input_def& input) -> void
-{
-	txtbfr[name] += input.input_text_value;
-
-	input.input_text_value = "";
-	
-	return;
-}
 //Interaction Implementation, Generic
 auto gautier::interaction::run_basic_capabilities_test() -> int
 {
