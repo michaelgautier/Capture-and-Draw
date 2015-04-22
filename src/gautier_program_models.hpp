@@ -28,21 +28,15 @@ namespace gautier
 	{
 		namespace models
 		{
-			/*
-				Instances
-			*/
-			static gautier::interaction::type_interaction_model instance_interaction_models;
-			static gautier::interaction::type_principle_key_map instance_interaction_def_primary_keys;
+			using type_key_list = gautier::interaction::type_data_key_to_interaction_def_list;
+			using type_composition = gautier::interaction::composition;
+			using type_keyvaluepair_list = gautier::interaction::type_text_keyvaluepair_list;
+			using type_keyvaluepair = gautier::interaction::type_data_key_to_interaction_def_pair;
+			using type_interaction_def_enum = gautier::interaction::interaction_def_type;
 
-			static gautier::interaction::type_text_keyvalues_map instance_text_keyvalues;
-			static gautier::interaction::type_principle_map_key instance_principle_map_key;
-
-			/*
-				Functions
-			*/
-			auto build_interactive_model(gautier::interaction::type_text_keyvalues_map& instance_current_values) -> void;
-			auto create_interaction_model_from_JSONValue(const std::string& json_data) -> gautier::interaction::type_interaction_model;
-			auto translate_json_node_to_planar(const Json::Value& instance_node, gautier::interaction::type_text_keyvalues_map& instance_values) -> void;
+			auto build_composition(const type_key_list& instance_data_key_to_interaction_def_list, type_composition& instance_composition, type_keyvaluepair_list& instance_current_values) -> void;
+			auto create_composition_from_json_data(const Json::Value& instance_node, const type_key_list& instance_data_key_to_interaction_def_list, type_composition& instance_composition, type_keyvaluepair_list& instance_values) -> void;
+			auto create_composition_from_json_data(const type_key_list& instance_data_key_to_interaction_def_list, const std::string& json_data) -> type_composition;
 		}
 	}
 }

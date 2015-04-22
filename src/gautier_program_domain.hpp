@@ -23,6 +23,15 @@ namespace gautier
 {
 	namespace program
 	{
-		auto process_interaction_model(gautier::interaction::type_interaction_model layout_model, gautier::interaction::input_def& instance_input_model) -> gautier::interaction::type_visual_response_model;
+		using type_key_list = gautier::interaction::type_data_key_to_interaction_def_list;
+		using type_composition = gautier::interaction::composition;
+		using type_keyvaluepair_list = gautier::interaction::type_text_keyvaluepair_list;
+		using type_keyvaluepair = gautier::interaction::type_data_key_to_interaction_def_pair;
+		using type_interaction_def_enum = gautier::interaction::interaction_def_type;
+		using type_input = gautier::interaction::input_def;
+		using type_output = gautier::interaction::type_visual_response_model;
+		using type_planar = gautier::interaction::planar_def;
+
+		auto process_input(gautier::interaction::input_def& instance_input_model) -> gautier::interaction::type_visual_response_model;
 	}
 }

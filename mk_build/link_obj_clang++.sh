@@ -1,11 +1,5 @@
-cd ..
-
-mkdir build
-rm build/c_and_d
+cd build
 
 #Link with Clang 	Program
-clang++ -ggdb -std=c++11 -o build/c_and_d build/gautier_json_mapping.o build/gautier_program_models.o build/jsonlib.o build/gautier_interaction_console.o build/gautier_interaction_sfml.o build/gautier_interaction.o build/gautier_program_domain.o build/gautier_program.o build/gautier_main.o -lsfml-graphics -lsfml-window -lsfml-system 
-
-ls -l build/.
-
+clang++ -ggdb -std=c++11 -o c_and_d gautier_json_mapping.o gautier_program_models.o jsonlib.o gautier_interaction_console.o gautier_interaction_sfml.o gautier_interaction.o gautier_program_domain.o gautier_program.o gautier_main.o -lsfml-graphics -lsfml-window -lsfml-system 
 

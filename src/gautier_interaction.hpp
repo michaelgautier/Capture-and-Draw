@@ -17,9 +17,10 @@ Interaction API dealing with Input Response. That covers input devices and 2D gr
 */
 #ifndef gautier_interaction
 #define gautier_interaction
-#define UXLevel 0
+#define UXLevel 1
 
 #include "gautier_interaction_types.hpp"
+
 #include <utility>
 
 #if UXLevel == 1	//sfml implementation
@@ -52,17 +53,27 @@ namespace gautier
 		auto Function01_InputMappedToGeometry() -> float;
 		auto Function02_VisualStructureToVisualOutput() -> float;
 
-		auto get_interactive_def_primary_key(const std::string& value, const type_principle_key_map& instance_principle_key_map) -> type_principle_map_key;
-		auto make_default_interactive_def_primary_key() -> type_principle_map_key;
+		auto get_data_key_to_interactive_def_pair(const std::string& value, const type_data_key_to_interaction_def_list& instance_data_key_to_interaction_def_list) -> type_data_key_to_interaction_def_pair;
+		auto make_default_data_key_to_interaction_def_pair() -> type_data_key_to_interaction_def_pair;
 
-		auto output_model_to_console(const type_interaction_model& instance_models) -> void;
+		auto output_composition_to_console(const composition& instance_composition) -> void;
 		auto run_basic_capabilities_test() -> int;
+
+		auto get_planars(const composition& instance_composition) -> type_visual_response_model;
+
+		auto check_point_within_area(const std::vector<float>& xy, const std::vector<float>& xywh) -> bool;
+		auto check_point_within_area(const input_def& src, const planar_def& area) -> bool;
+
+		auto check_area_overlaps(const std::vector<float>& xywh1, const std::vector<float>& xywh2) -> bool;
+		auto check_area_overlaps(const planar_def& area1, const planar_def& area2) -> bool;
+
+		auto update_text_buffer_by_name(std::map<std::string, std::string>& txtbfr, const std::string& name, input_def& input) -> void;
 
 		#if UXLevel == 1	//sfml implementation
 			namespace impl_ns = gautier::interaction::implsfml;
 		#else
 			namespace impl_ns = gautier::interaction::implconsole;
-		#endif		
+		#endif
 	}
 }
 #endif

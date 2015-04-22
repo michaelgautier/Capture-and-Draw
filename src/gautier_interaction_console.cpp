@@ -39,6 +39,20 @@ auto gautier::interaction::implconsole::run_basic_capabilities_test_impl() -> in
 	return 1;
 }
 
+auto check_point_within_area(const std::vector<float>& xy, const std::vector<float>& xywh) -> bool
+{
+	std::cout << "point " << xy[0] << "/" << xy[1] << " area " << xywh[0] << "/" << xywh[1] << ", " << xywh[2] << " " << xywh[3] << gautier::OUTENDL;
+	
+	return false;
+}
+
+auto check_area_overlaps(const std::vector<float>& xywh1, const std::vector<float>& xywh2) -> bool
+{
+	std::cout << " area 1 " << xywh1[0] << "/" << xywh1[1] << ", " << xywh1[2] << " " << xywh1[3] << " area " << xywh2[0] << "/" << xywh2[1] << ", " << xywh2[2] << " " << xywh2[3] << gautier::OUTENDL;
+	
+	return false;
+}
+
 auto gautier::interaction::implconsole::capture_state_impl(input_def& instance_input_model) -> void
 {
 	std::cout << "capturing state: Generic" << gautier::OUTENDL;

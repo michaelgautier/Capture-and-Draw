@@ -11,6 +11,18 @@ See the License for details on permissions and limitations.*/
 
 #include <iostream>
 
+auto gautier::interaction::get_planars(const composition& instance_composition) -> type_visual_response_model
+{
+	type_visual_response_model previsuals;
+	
+	for(auto planar_keyvalue : instance_composition.composites)
+	{
+		previsuals.push_back(planar_keyvalue.second);
+	}
+
+	return previsuals;
+}
+		
 auto gautier::interaction::check_interaction_process_is_active() -> bool
 {
 	return impl_ns::check_interaction_process_is_active_impl();
@@ -30,51 +42,44 @@ auto gautier::interaction::define_context_properties(const std::pair<float, floa
 	return;
 }
 
-auto gautier::interaction::make_default_interactive_def_primary_key() -> type_principle_map_key
+auto gautier::interaction::make_default_data_key_to_interaction_def_pair() -> type_data_key_to_interaction_def_pair
 {
-	return std::make_pair(interaction_def_type::interaction_def_type_none, "");
+	return std::make_pair("", interaction_def_type::interaction_def_type_none);
 }
 
-auto gautier::interaction::get_interactive_def_primary_key(const std::string& value, const type_principle_key_map& instance_principle_key_map) -> type_principle_map_key
+auto gautier::interaction::get_data_key_to_interactive_def_pair(const std::string& value, const type_data_key_to_interaction_def_list& instance_principle_key_map) -> type_data_key_to_interaction_def_pair
 {
-	type_principle_map_key instance_primary_key = make_default_interactive_def_primary_key();
+	type_data_key_to_interaction_def_pair instance_primary_key = make_default_data_key_to_interaction_def_pair();
 
 	auto candidate_key = instance_principle_key_map.find(value);
 
 	if(candidate_key != instance_principle_key_map.end())
 	{
-		instance_primary_key = std::make_pair(candidate_key->second, candidate_key->first);
+		instance_primary_key = std::make_pair(candidate_key->first, candidate_key->second);
 	}
 
 	return instance_primary_key;
 }
 
-auto gautier::interaction::output_model_to_console(const type_interaction_model& instance_models) -> void
+auto gautier::interaction::output_composition_to_console(const composition& instance_composition) -> void
 {
-	for(auto entry_composition : instance_models)
+	std::cout << "composition name " << instance_composition.name << gautier::OUTENDL;
+	std::cout << "composition text " << instance_composition.text << gautier::OUTENDL;
+	std::cout << "composites size " << instance_composition.composites.size() << gautier::OUTENDL; 
+	
+	for(auto entry_composite : instance_composition.composites)
 	{
-		std::cout << "entry name, composition " << entry_composition.first << gautier::OUTENDL;
+		std::cout << "entry name, planar_def " << entry_composite.first << gautier::OUTENDL;
 		
-		auto instance_composition = entry_composition.second;
+		auto instance_planar = entry_composite.second;
 		
-		std::cout << "composition name " << instance_composition.name << gautier::OUTENDL;
-		std::cout << "composition text " << instance_composition.text << gautier::OUTENDL;
-		std::cout << "composites size " << instance_composition.composites.size() << gautier::OUTENDL; 
-		
-		for(auto entry_composite : instance_composition.composites)
-		{
-			std::cout << "entry name, planar_def " << entry_composite.first << gautier::OUTENDL;
-			
-			auto instance_planar = entry_composite.second;
-			
-			std::cout << "planar_def description " 
-			<< instance_planar.name << " " 
-			<< instance_planar.text << " x "
-			<< instance_planar.x << " y "
-			<< instance_planar.y << " width "
-			<< instance_planar.width << " height "
-			<< instance_planar.height << gautier::OUTENDL;
-		}
+		std::cout << "planar_def description " 
+		<< instance_planar.name << " " 
+		<< instance_planar.text << " x "
+		<< instance_planar.x << " y "
+		<< instance_planar.y << " width "
+		<< instance_planar.width << " height "
+		<< instance_planar.height << gautier::OUTENDL;
 	}
 
 	return;
@@ -125,10 +130,38 @@ auto gautier::interaction::Function02_VisualStructureToVisualOutput() -> float
 	return 0;
 }
 
+auto gautier::interaction::update_text_buffer_by_name(std::map<std::string, std::string>& txtbfr, const std::string& name, input_def& input) -> void
+{
+	txtbfr[name] += input.input_text_value;
+
+	input.input_text_value = "";
+	
+	return;
+}
 //Interaction Implementation, Generic
 auto gautier::interaction::run_basic_capabilities_test() -> int
 {
 	return impl_ns::run_basic_capabilities_test_impl();
+}
+
+auto gautier::interaction::check_point_within_area(const std::vector<float>& xy, const std::vector<float>& xywh) -> bool
+{
+	return impl_ns::check_point_within_area_impl(xy, xywh);
+}
+
+auto gautier::interaction::check_point_within_area(const input_def& src, const planar_def& area) -> bool
+{
+	return impl_ns::check_point_within_area_impl({src.input_mouse_x, src.input_mouse_y}, {area.x, area.y, area.width, area.height});
+}
+
+auto gautier::interaction::check_area_overlaps(const std::vector<float>& xywh1, const std::vector<float>& xywh2) -> bool
+{
+	return impl_ns::check_area_overlaps_impl(xywh1, xywh2);
+}
+
+auto gautier::interaction::check_area_overlaps(const planar_def& area1, const planar_def& area2) -> bool
+{
+	return impl_ns::check_area_overlaps_impl({area1.x, area1.y, area1.width, area1.height}, {area2.x, area2.y, area2.width, area2.height});
 }
 
 auto gautier::interaction::capture_state(input_def& instance_input_model) -> void

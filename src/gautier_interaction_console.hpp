@@ -37,6 +37,10 @@ namespace gautier
 			auto capture_state_impl(input_def& instance_input_model) -> void;
 			auto run_basic_capabilities_test_impl() -> int;
 			auto update_state_impl(const type_visual_response_model& instance_visual_response_model) -> int;
+
+			auto check_point_within_area(const std::vector<float>& xy, const std::vector<float>& xywh) -> bool;
+			auto check_area_overlaps(const std::vector<float>& xywh1, const std::vector<float>& xywh2) -> bool;
+
 		}
 	}
 }

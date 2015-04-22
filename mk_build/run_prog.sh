@@ -1,7 +1,3 @@
-./compile_source.sh
-./link_obj.sh
-
-cd ..
-
+./mk_build.sh
 ./build/c_and_d
 

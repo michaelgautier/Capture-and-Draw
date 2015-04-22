@@ -55,6 +55,8 @@ namespace gautier
 			auto run_basic_capabilities_test_impl() -> int;
 			auto update_state_impl(const gautier::interaction::type_visual_response_model& instance_visual_response_model) -> int;
 
+			auto check_point_within_area_impl(const std::vector<float>& xy, const std::vector<float>& xywh) -> bool;
+			auto check_area_overlaps_impl(const std::vector<float>& xywh1, const std::vector<float>& xywh2) -> bool;
 		}
 	}
 }
