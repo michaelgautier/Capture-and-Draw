@@ -10,11 +10,47 @@
 	\par 		Copyright 2015 Michael Gautier
 	Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 . Software distributed under the License is distributed on an "AS IS" BASIS, NO WARRANTIES OR CONDITIONS OF ANY KIND, explicit or implicit. See the License for details on permissions and limitations.
 */
-
-#include "gautier_core.hpp"
-#include "gautier_interaction.hpp"
-
 #include <iostream>
+#include <map>
+#include <utility>
+#include <vector>
+
+#ifndef __gautier_core__
+#define __gautier_core__
+#include "gautier_core.hpp"
+#endif
+
+#ifndef __gautier_interaction_types__
+#define __gautier_interaction_types__
+#include "gautier_interaction_types.hpp"
+#endif
+
+#ifndef __gautier_interaction__
+#define __gautier_interaction__
+#include "gautier_interaction.hpp"
+#endif
+
+///	Determines the specific platform implementation 
+///	to be used for interactive functionality.
+#define UXLevel 1
+
+#if UXLevel == 1	//sfml implementation
+	#ifndef __gautier_interaction_sfml__
+	#define __gautier_interaction_sfml__
+		#include "gautier_interaction_sfml.hpp"
+	#endif
+
+	namespace impl_ns = gautier::interaction::implsfml;
+
+#else
+	#ifndef __gautier_interaction_console__
+	#define __gautier_interaction_console__
+		#include "gautier_interaction_console.hpp"
+	#endif
+
+	namespace impl_ns = gautier::interaction::implconsole;
+
+#endif
 
 auto gautier::interaction::get_planars(const composition& instance_composition) -> type_visual_response_model
 {

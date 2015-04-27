@@ -11,16 +11,25 @@
 	\par 		Copyright 2015 Michael Gautier
 	Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 . Software distributed under the License is distributed on an "AS IS" BASIS, NO WARRANTIES OR CONDITIONS OF ANY KIND, explicit or implicit. See the License for details on permissions and limitations.
 */
-
-#include "gautier_core.hpp"
-#include "gautier_interaction_sfml.hpp"
-
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
-
-#include <iostream>
 #include <memory>
+#include <iostream>
+#include <vector>
+#include <SFML/Graphics.hpp>
+
+#ifndef __gautier_core__
+#define __gautier_core__
+#include "gautier_core.hpp"
+#endif
+
+#ifndef __gautier_interaction_types__
+#define __gautier_interaction_types__
+#include "gautier_interaction_types.hpp"
+#endif
+
+#ifndef __gautier_interaction_sfml__
+#define __gautier_interaction_sfml__
+#include "gautier_interaction_sfml.hpp"
+#endif
 
 ///	Type for the Visual Context.
 using type_interaction_context = std::unique_ptr<sf::RenderWindow>;
@@ -71,7 +80,7 @@ auto init_event_names() -> void
 	return;
 }
 
-static const auto get_default_font_face() -> const std::string
+static auto get_default_font_face() -> const std::string
 {
 	//Will need to validate font sources in the future.
 	//	Using a default Linux distro font.
