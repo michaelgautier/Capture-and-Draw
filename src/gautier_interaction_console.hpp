@@ -40,10 +40,10 @@ namespace gautier
 			auto update_state_impl(const type_visual_response_model& instance_visual_response_model) -> int;
 
 			///	Uses available methods to determine if a point resides in an area.
-			auto check_point_within_area(const std::vector<float>& xy, const std::vector<float>& xywh) -> bool;
+			auto check_point_within_area_impl(const std::vector<float>& xy, const std::vector<float>& xywh) -> bool;
 
 			///	Uses available methods to determine two areas coincides.
-			auto check_area_overlaps(const std::vector<float>& xywh1, const std::vector<float>& xywh2) -> bool;
+			auto check_area_overlaps_impl(const std::vector<float>& xywh1, const std::vector<float>& xywh2) -> bool;
 		}
 	}
 }
