@@ -1,7 +1,7 @@
 Capture and Draw
 ------------------------------------------
 
-When you are writing software sometimes you want to link to new graphics technologies in a loosely coupled way. Today, you may chose DirectX, later, you decide to adopt SDL. Eventually, you may decide that Allegro or SFML is right for your solution. You want the flexibility to present your ideas and functionality in such a way as avoid a large rewrite of the program.
+When you are writing software sometimes you want to link to new graphics technologies in a loosely coupled way. Today, you may chose DirectX. Later, you may decide to adopt SDL. Sometime well beyond that, decide that Allegro or SFML is right for your solution. You want the flexibility to present your ideas and functionality in such a way as avoid a large rewrite of the program.
 
 WHAT THIS IS:
 ------------------------------------------
@@ -10,12 +10,12 @@ An attempt to keep the focus on the application rather than the technique of vis
 
 It has tradeoffs. This solution is predominately a passthrough layer to highly capable interactive solutions today and tomorrow. The true nature of this project is it is a reference architecture for programs. 
 
-The intent is for this code is to serve as a starter level blueprint for building cross platform visual programs in native code that are designed to function long-term. The design may not eliminate the need to understand the technologies to which you link. Rather, it gives you a structure in which several graphics and interactive technologies could be fitted to your solution.
+The intent for this code is to serve as a starter level blueprint for building cross platform visual programs in native code that are designed to function long-term. The design may not eliminate the need to understand the technologies to which you link. Rather, it gives you a structure in which several graphics and interactive technologies could be fitted to your solution.
 
 WHAT THIS IS NOT:
 ------------------------------------------
 
-This is not a replacement graphics stack. It has no connection with video games, simulations, or highly sophisticated user interfaces. Nothing other than a high level formula for applying other graphics and interactive platforms.
+This is not a replacement graphics stack. It has no connection with video games, simulations, or highly sophisticated user interfaces. Nothing more than a high level formula for applying other graphics and interactive platforms.
 
 STATUS:
 ------------------------------------------
