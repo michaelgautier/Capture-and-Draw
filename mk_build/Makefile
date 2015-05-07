@@ -1,83 +1,120 @@
+dot := .
+space := " "
+
+#Directories
+LIB_LOCAL_DIR := ../../../liblocal
+LIB_SFM_DIR := $(LIB_LOCAL_DIR)/libsfml_gcc
+LIB_JSONCPP_DIR := $(LIB_LOCAL_DIR)/libjson_gcc
+SRC_DIR = ../src
 OBJ_DIR := obj
+LIB_DIR := lib
+
+#Includes
+INC_COR := $(SRC_DIR)/core
+INC_VIZ := $(SRC_DIR)/interaction
+INC_SFM := $(LIB_LOCAL_DIR)
+INC_JSON := $(LIB_LOCAL_DIR)/JSONCpp
+INC_SYS := $(LIB_LOCAL_DIR)
+
+#Compiled Objects
 OBJ :=  $(OBJ_DIR)/jsoncpp.o $(OBJ_DIR)/gautier_core.o $(OBJ_DIR)/gautier_interaction_console.o $(OBJ_DIR)/gautier_interaction.o $(OBJ_DIR)/gautier_interaction_sfml.o $(OBJ_DIR)/gautier_program_domain.o $(OBJ_DIR)/gautier_program_models.o $(OBJ_DIR)/gautier_program.o
 
-LIB_LOCAL := libsfml-system.so.2.2.0 libsfml-window.so.2.2.0 libsfml-graphics.so.2.2.0
+#Compiler parameters. Minimum standard.
+CPP_MIN := -c -ggdb -std=c++11 -Wpedantic -Wno-system-headers 
 
-CPP_MIN := -c -ggdb -std=c++11 -Wpedantic
+#Compiler parameters. Debug
 CPP_MG := $(CPP_MIN) -fabi-version=0 -fcheck-new -fconstexpr-depth=512 -ffor-scope -fstrict-aliasing -fstrict-overflow -fvisibility-inlines-hidden -Wabi -Wall -Wcast-align -Wcast-qual -Wconversion -Wconversion-null -Wctor-dtor-privacy -Wdelete-non-virtual-dtor -Wdouble-promotion -Weffc++ -Wextra -Wfloat-equal -Wformat=2 -Wliteral-suffix -Wnarrowing -Wnoexcept -Wno-non-template-friend -Wno-unused-function -Wnon-virtual-dtor -Wno-pmf-conversions -Wno-system-headers -Wold-style-cast -Woverloaded-virtual -Wreorder -Wshadow -Wsign-promo -Wstrict-aliasing=3 -Wstrict-null-sentinel -Wstrict-overflow=5 -Wsuggest-attribute=const -Wsuggest-attribute=noreturn -Wsuggest-attribute=pure -Wuseless-cast 
 
-INC_DAT := -I../src/data
-INC_COR := -I../src/core
-INC_VIZ := -I../src/interaction
-INC_SFM := -I../../../liblocal
+#Shared and/or Static Libraries
+LIB_SFML_VER := 2.2.0
+LIB_SFML := libsfml-system.so libsfml-window.so libsfml-graphics.so
 
-LIB_SFM_DIR := ../../../liblocal/libsfml_gcc
-LIB_SFM := -lfreetype -lpthread -lX11 -lGLU -ljpeg -lsfml-graphics -lsfml-window -lsfml-system
+#Linker parameters
+LIB_LINK := -l freetype -l pthread -l X11 -l GLU -l jpeg -l sfml-graphics -l sfml-window -l sfml-system
 
+#Parameter and source values updates
 ifeq ($(CXX),clang++)
 	CPP_MG := -c -ggdb -std=c++11 -Wpedantic -fconstexpr-depth=512 -ffor-scope -fstrict-aliasing -fstrict-overflow -fvisibility-inlines-hidden -Wabi -Wall -Wcast-align -Wcast-qual -Wconversion -Wconversion-null -Wctor-dtor-privacy -Wdelete-non-virtual-dtor -Weffc++ -Wextra -Wfloat-equal -Wformat=2 -Wnarrowing -Wno-unused-function -Wnon-virtual-dtor -Wno-system-headers -Wold-style-cast -Woverloaded-virtual -Wreorder -Wshadow -Wsign-promo -Wstrict-overflow=5
 	LIB_SFM_DIR := ../../../liblocal/libsfml_clang
+	LIB_JSONCPP_DIR := $(LIB_LOCAL_DIR)/libjson_clang
 endif
 
+#---------------------------------------------------------------------------------------------START
 
+#Build the program
 c_and_d : $(OBJ)
-	$(CXX) -v -ggdb -std=c++11 -Wl,-rpath,'lib' -L$(LIB_SFM_DIR) -o $@ $(OBJ) $(LIB_SFM)
+	$(CXX) -v -ggdb -std=c++11 -Wl,-rpath,'lib' -L$(LIB_SFM_DIR) -o $@ $(OBJ) $(LIB_LINK)
 
-$(OBJ_DIR)/gautier_program.o: ../src/test/gautier_program.cpp \
- ../src/core/gautier_core.hpp \
- ../src/interaction/gautier_interaction_types.hpp \
- ../src/interaction/gautier_interaction.hpp \
- ../src/test/gautier_program_domain.hpp
-	$(CXX) $(INC_DAT) $(INC_COR) $(INC_VIZ) $(CPP_MG) -o $@ $< 
+#Build the object files
+$(OBJ_DIR)/gautier_program.o: $(SRC_DIR)/test/gautier_program.cpp \
+ $(SRC_DIR)/core/gautier_core.hpp \
+ $(SRC_DIR)/interaction/gautier_interaction_types.hpp \
+ $(SRC_DIR)/interaction/gautier_interaction.hpp \
+ $(SRC_DIR)/test/gautier_program_domain.hpp
+	$(CXX) -I$(INC_JSON) -I$(INC_COR) -I$(INC_VIZ) $(CPP_MG) -o $@ $< 
 
-$(OBJ_DIR)/gautier_program_domain.o: ../src/test/gautier_program_domain.cpp \
- ../src/data/json/json.h ../src/core/gautier_core.hpp \
- ../src/interaction/gautier_interaction_types.hpp \
- ../src/interaction/gautier_interaction.hpp \
- ../src/test/gautier_program_models.hpp \
- ../src/test/gautier_program_domain.hpp
-	$(CXX) $(INC_DAT) $(INC_COR) $(INC_VIZ) $(CPP_MG) -o $@ $< 
+$(OBJ_DIR)/gautier_program_domain.o: $(SRC_DIR)/test/gautier_program_domain.cpp \
+ $(INC_JSON)/json/json.h $(SRC_DIR)/core/gautier_core.hpp \
+ $(SRC_DIR)/interaction/gautier_interaction_types.hpp \
+ $(SRC_DIR)/interaction/gautier_interaction.hpp \
+ $(SRC_DIR)/test/gautier_program_models.hpp \
+ $(SRC_DIR)/test/gautier_program_domain.hpp
+	$(CXX) -I$(INC_JSON) -isystem$(INC_JSON) -I$(INC_COR) -I$(INC_VIZ) $(CPP_MG) -o $@ $< 
 
-$(OBJ_DIR)/gautier_program_models.o: ../src/test/gautier_program_models.cpp \
- ../src/data/json/json.h ../src/core/gautier_core.hpp \
- ../src/interaction/gautier_interaction_types.hpp \
- ../src/interaction/gautier_interaction.hpp \
- ../src/test/gautier_program_models.hpp
-	$(CXX) $(INC_DAT) $(INC_COR) $(INC_VIZ) $(CPP_MG) -o $@ $< 
+$(OBJ_DIR)/gautier_program_models.o: $(SRC_DIR)/test/gautier_program_models.cpp \
+ $(INC_JSON)/json/json.h $(SRC_DIR)/core/gautier_core.hpp \
+ $(SRC_DIR)/interaction/gautier_interaction_types.hpp \
+ $(SRC_DIR)/interaction/gautier_interaction.hpp \
+ $(SRC_DIR)/test/gautier_program_models.hpp
+	$(CXX) -I$(INC_JSON) -isystem$(INC_JSON) -I$(INC_COR) -I$(INC_VIZ) $(CPP_MG) -o $@ $< 
 
-$(OBJ_DIR)/gautier_interaction.o: ../src/interaction/gautier_interaction.cpp \
- ../src/core/gautier_core.hpp \
- ../src/interaction/gautier_interaction_types.hpp \
- ../src/interaction/gautier_interaction.hpp \
- ../src/interaction/gautier_interaction_sfml.hpp
-	$(CXX) $(INC_COR) $(INC_VIZ) $(CPP_MG) -o $@ $< 
+$(OBJ_DIR)/gautier_interaction.o: $(SRC_DIR)/interaction/gautier_interaction.cpp \
+ $(SRC_DIR)/core/gautier_core.hpp \
+ $(SRC_DIR)/interaction/gautier_interaction_types.hpp \
+ $(SRC_DIR)/interaction/gautier_interaction.hpp \
+ $(SRC_DIR)/interaction/gautier_interaction_sfml.hpp
+	$(CXX) -I$(INC_COR) -I$(INC_VIZ) $(CPP_MG) -o $@ $< 
 
 $(OBJ_DIR)/gautier_interaction_console.o: \
- ../src/interaction/gautier_interaction_console.cpp \
- ../src/core/gautier_core.hpp \
- ../src/interaction/gautier_interaction_types.hpp \
- ../src/interaction/gautier_interaction_console.hpp
-	$(CXX) $(INC_COR) $(INC_VIZ) $(CPP_MG) -o $@ $< 
+ $(SRC_DIR)/interaction/gautier_interaction_console.cpp \
+ $(SRC_DIR)/core/gautier_core.hpp \
+ $(SRC_DIR)/interaction/gautier_interaction_types.hpp \
+ $(SRC_DIR)/interaction/gautier_interaction_console.hpp
+	$(CXX) -I$(INC_COR) -I$(INC_VIZ) $(CPP_MG) -o $@ $< 
 
 $(OBJ_DIR)/gautier_interaction_sfml.o: \
- ../src/interaction/gautier_interaction_sfml.cpp \
- ../src/core/gautier_core.hpp \
- ../src/interaction/gautier_interaction_types.hpp \
- ../src/interaction/gautier_interaction_sfml.hpp
-	$(CXX) $(INC_COR) $(INC_VIZ) $(INC_SFM) $(CPP_MG) -o $@ $< 
+ $(SRC_DIR)/interaction/gautier_interaction_sfml.cpp \
+ $(SRC_DIR)/core/gautier_core.hpp \
+ $(SRC_DIR)/interaction/gautier_interaction_types.hpp \
+ $(SRC_DIR)/interaction/gautier_interaction_sfml.hpp
+	$(CXX) -I$(INC_COR) -I$(INC_VIZ) -I$(INC_SFM) -isystem$(INC_SYS) $(CPP_MG) -o $@ $< 
 
-$(OBJ_DIR)/gautier_core.o: ../src/core/gautier_core.cpp ../src/core/gautier_core.hpp
-	$(CXX) $(INC_COR) $(CPP_MG) -o $@ $< 
+$(OBJ_DIR)/gautier_core.o: $(SRC_DIR)/core/gautier_core.cpp $(SRC_DIR)/core/gautier_core.hpp 
+	$(CXX) -I$(INC_COR) $(CPP_MG) -o $@ $< 
 
-$(OBJ_DIR)/jsoncpp.o: ../src/data/jsoncpp.cpp ../src/data/json/json.h infrastructure
-	$(CXX) $(CPP_MIN) -o $@ $< 
+$(OBJ_DIR)/jsoncpp.o : infrastructure_build
+	cp --update $(LIB_JSONCPP_DIR)/jsoncpp.o $(OBJ_DIR)/
 
-infrastructure: $(LIB_LOCAL)
+#Setup prerequisite directories and files.
+infrastructure_build: $(LIB_SFML) $(LIB_JSONCPP_DIR)/jsoncpp.o
 	mkdir -p $(OBJ_DIR)
 
-$(LIB_LOCAL) :
+$(LIB_SFML) : infrastructure_run
+	cp --update $(LIB_SFM_DIR)/$@.$(LIB_SFML_VER) lib/
+	rm -rf lib/$@.$(firstword $(subst $(dot), $(space),$(LIB_SFML_VER)))
+	ln -s 	$@.$(LIB_SFML_VER) lib/$@.$(firstword $(subst $(dot), $(space),$(LIB_SFML_VER)))
+
+infrastructure_run : 
 	mkdir -p lib
-	cp --update $(LIB_SFM_DIR)/$@ lib/
+
+.PHONY : clean
+
+clean : 
+	rm -rf obj/
+	rm -rf lib/
+	rm -f c_and_d
+
+#---------------------------------------------------------------------------------------------END
 
 #Copyright 2015 Michael Gautier
 
